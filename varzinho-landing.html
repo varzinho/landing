@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VARZINHO — O replay da quebrada</title>
+  <meta name="description" content="Aluguel de câmeras para campos de várzea com replay imediato dos lances.">
+  <style>
+    :root{
+      --bg:#0b0b0f;
+      --panel:#141419;
+      --muted:#a1a1aa;
+      --text:#fafafa;
+      --brand:#f59e0b;
+      --brand-2:#fb923c;
+      --border:#26262e;
+      --success:#22c55e;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue","Noto Sans",Arial,"Apple Color Emoji","Segoe UI Emoji"}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1100px;margin:0 auto;padding:0 16px}
+    .btn{display:inline-block;padding:12px 20px;border-radius:999px;font-weight:700}
+    .btn-primary{background:var(--brand);color:#121212;box-shadow:0 10px 30px rgba(245,158,11,.25)}
+    .btn-primary:hover{background:#ffb547}
+    .btn-ghost{border:1px solid var(--border);color:#fff}
+    .btn-ghost:hover{border-color:var(--brand);color:var(--brand)}
+    header.nav{
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:saturate(120%) blur(6px);
+      background:rgba(0,0,0,.35);border-bottom:1px solid var(--border)
+    }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900}
+    .brand img{width:40px;height:40px;object-fit:contain}
+    .nav-links{display:none;gap:22px;color:#d4d4d8}
+    .hero{position:relative;overflow:hidden}
+    .hero .glow{position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 0%,rgba(245,158,11,.15),transparent);pointer-events:none}
+    .hero-grid{display:grid;gap:32px;padding:72px 0}
+    .ribbon{display:inline-flex;align-items:center;gap:8px;color:#ffcf8a;border:1px solid rgba(245,158,11,.25);background:rgba(245,158,11,.12);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
+    h1{font-size:40px;line-height:1.1;margin:12px 0 8px;font-weight:900}
+    .gradient{background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{color:#e4e4e7;max-width:56ch}
+    .bullets{display:flex;gap:24px;flex-wrap:wrap;color:#c4c4cc}
+    .panel{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:18px;padding:16px}
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center;margin-top:16px}
+    .kpi{background:#0f0f14;border:1px solid var(--border);border-radius:12px;padding:14px}
+    .kpi .v{font-weight:900;font-size:22px}
+    section.strip{border-block:1px solid var(--border);background:linear-gradient(to bottom,transparent,rgba(0,0,0,.2))}
+    .strip .items{display:flex;gap:26px;flex-wrap:wrap;justify-content:space-between;color:#a1a1aa;text-transform:uppercase;font-size:12px;letter-spacing:.12em;padding:16px 0}
+    .section{padding:64px 0}
+    .section h2{font-size:32px;margin:0 0 8px}
+    .muted{color:var(--muted);max-width:70ch}
+    .cards{display:grid;grid-template-columns:1fr;gap:16px;margin-top:24px}
+    .card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:16px;padding:18px}
+    .steps{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px}
+    .step .num{width:40px;height:40px;border-radius:999px;background:rgba(245,158,11,.18);color:#ffd08a;display:flex;align-items:center;justify-content:center;font-weight:900;margin-bottom:8px}
+    .video{aspect-ratio:16/9;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:#0f0f14}
+    .plans{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px}
+    .plan{position:relative;border:1px solid var(--border);border-radius:16px;padding:18px;background:rgba(255,255,255,.04)}
+    .plan.hot{border-color:rgba(245,158,11,.6);background:rgba(245,158,11,.08)}
+    .badge{position:absolute;left:16px;top:-10px;background:var(--brand);color:#121212;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800}
+    .price{font-weight:900;font-size:26px;background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0}
+    .ul{list-style:none;padding:0;margin:10px 0 0}
+    .ul li{display:flex;gap:8px;align-items:center;margin:6px 0;color:#e7e7ea}
+    .ul .ok{color:var(--success);font-weight:900}
+    .quotes{display:grid;grid-template-columns:1fr;gap:16px}
+    blockquote{margin:0;padding:16px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--border)}
+    details.faq{border:1px solid var(--border);border-radius:12px;padding:12px;background:rgba(255,255,255,.04)}
+    details.faq+details.faq{margin-top:10px}
+    summary{cursor:pointer;font-weight:700;list-style:none}
+    .cta-final{border:1px solid rgba(245,158,11,.45);border-radius:20px;background:linear-gradient(90deg,rgba(245,158,11,.08),rgba(251,146,60,.08));padding:26px;text-align:center}
+    footer{border-top:1px solid var(--border);color:#9ca3af;text-align:center;padding:22px 0;margin-top:40px}
+    /* responsive */
+    @media(min-width:768px){
+      .nav-links{display:flex}
+      h1{font-size:56px}
+      .hero-grid{grid-template-columns:1.1fr .9fr;align-items:center}
+      .cards{grid-template-columns:repeat(3,1fr)}
+      .steps{grid-template-columns:repeat(3,1fr)}
+      .plans{grid-template-columns:repeat(3,1fr)}
+      .quotes{grid-template-columns:repeat(3,1fr)}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <img src="logo-vz.png" alt="VARZINHO" />
+        <span>VARZINHO</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#features">Recursos</a>
+        <a href="#como">Como funciona</a>
+        <a href="#planos">Planos</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="btn btn-primary" href="https://wa.me/5599999999999?text=Quero%20saber%20mais%20sobre%20o%20Varzinho!">Começar</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="glow"></div>
+    <div class="container hero-grid">
+      <div>
+        <span class="ribbon">✨ Replay na várzea, nível transmissão</span>
+        <h1>O <span class="gradient">replay da quebrada</span> que transforma o teu baba em espetáculo</h1>
+        <p class="lead">Alugue câmeras, capture todos os ângulos e receba <strong style="color:#ffd08a">replay imediato</strong> para decidir o lance e viralizar a resenha.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:18px">
+          <a class="btn btn-primary" href="https://wa.me/5599999999999?text=Quero%20saber%20mais%20sobre%20o%20Varzinho!">Pedir orçamento</a>
+          <a class="btn btn-ghost" href="#demo">Ver demo</a>
+        </div>
+        <div class="bullets" style="margin-top:16px">
+          <span>✅ Instalação rápida</span>
+          <span>🛡️ Suporte no jogo</span>
+          <span>⚡ Replay em segundos</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div style="display:flex;gap:14px;align-items:center">
+          <img src="logo-vz.png" alt="Brasão VZ" style="width:88px;height:88px;object-fit:contain" />
+          <div>
+            <div style="font-weight:900;font-size:22px">Sistema Varzinho</div>
+            <div style="color:var(--muted);font-size:14px">Câmeras + App de Replay + Suporte</div>
+          </div>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><div class="v">15ms</div><div class="l" style="color:var(--muted);font-size:12px">latência média*</div></div>
+          <div class="kpi"><div class="v">4K</div><div class="l" style="color:var(--muted);font-size:12px">qualidade</div></div>
+          <div class="kpi"><div class="v">24/7</div><div class="l" style="color:var(--muted);font-size:12px">suporte</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <section class="strip">
+    <div class="container items">
+      <span style="opacity:.9">Ligas locais</span>
+      <span style="opacity:.5">Campeonatos amadores</span>
+      <span style="opacity:.5">Projetos sociais</span>
+      <span style="opacity:.5">Quadras & Arenas</span>
+      <span style="opacity:.5">Escolas de futebol</span>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="section">
+    <div class="container">
+      <h2>Tudo para o teu jogo virar espetáculo</h2>
+      <p class="muted">Pacote completo: hardware, software e operação. A gente instala, acompanha e entrega o replay lá e nas tuas redes.</p>
+      <div class="cards">
+        <div class="card"><h3>🎥 Câmeras de alto nível</h3><p>4K, low‑light, microfones e ângulos variados para não perder nenhum lance.</p></div>
+        <div class="card"><h3>⏪ Replay instantâneo</h3><p>Aperta e volta. Decida a jogada, marque o gol com prova e gere conteúdo.</p></div>
+        <div class="card"><h3>📲 Clipe pronto pra redes</h3><p>Cortes automáticos no formato vertical/horizontal, com selo Varzinho.</p></div>
+        <div class="card"><h3>⏱️ Setup rápido</h3><p>Chegou, montou, gravou. Funcionando em minutos, sem dor de cabeça.</p></div>
+        <div class="card"><h3>🛡️ Equipe de suporte</h3><p>Time acompanhando durante o jogo, remoto ou presencial, conforme necessidade.</p></div>
+        <div class="card"><h3>👥 Para ligas e arenas</h3><p>Planos especiais para torneios, escolinhas e centros esportivos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section id="como" class="section" style="background:#0f0f14;border-block:1px solid var(--border)">
+    <div class="container">
+      <h2>Como funciona</h2>
+      <div class="steps">
+        <div class="step card">
+          <div class="num">1</div>
+          <h3>Instalação e posicionamento</h3>
+          <p class="muted">Equipe Varzinho monta as câmeras nos melhores ângulos do teu campo.</p>
+        </div>
+        <div class="step card">
+          <div class="num">2</div>
+          <h3>Captação e controle</h3>
+          <p class="muted">Durante a partida controlamos as capturas e marcamos os momentos‑chave.</p>
+        </div>
+        <div class="step card">
+          <div class="num">3</div>
+          <h3>Replay e distribuição</h3>
+          <p class="muted">Entregamos replays em segundos e, depois do jogo, os melhores momentos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO -->
+  <section id="demo" class="section">
+    <div class="container" style="text-align:center">
+      <h2>Veja na prática</h2>
+      <p class="muted">Demo de replay capturado em campo de barro. Substitua pelo seu highlight.</p>
+      <div class="video">
+        <iframe
+          width="100%" height="100%"
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+          title="Demo Varzinho"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANOS -->
+  <section id="planos" class="section" style="background:#0f0f14;border-block:1px solid var(--border)">
+    <div class="container">
+      <h2>Planos que cabem no teu jogo</h2>
+      <p class="muted">Valores indicativos. Projetos custom sob orçamento.</p>
+      <div class="plans">
+        <div class="plan">
+          <span class="badge">Mais econômico</span>
+          <h3>Amistoso</h3>
+          <div class="price">R$ 499</div>
+          <ul class="ul">
+            <li><span class="ok">✔</span> 1 câmera 4K</li>
+            <li><span class="ok">✔</span> Replay local</li>
+            <li><span class="ok">✔</span> Entrega highlights</li>
+          </ul>
+          <div style="margin-top:14px"><a class="btn btn-ghost" href="https://wa.me/5599999999999?text=Quero%20o%20plano%20Amistoso">Quero este</a></div>
+        </div>
+        <div class="plan hot">
+          <span class="badge">Mais popular</span>
+          <h3>Final de Bairro</h3>
+          <div class="price">R$ 1.290</div>
+          <ul class="ul">
+            <li><span class="ok">✔</span> 2 câmeras 4K</li>
+            <li><span class="ok">✔</span> Operador Varzinho</li>
+            <li><span class="ok">✔</span> Replay instantâneo</li>
+            <li><span class="ok">✔</span> Pacote social</li>
+          </ul>
+          <div style="margin-top:14px"><a class="btn btn-primary" href="https://wa.me/5599999999999?text=Quero%20o%20plano%20Final%20de%20Bairro">Quero este</a></div>
+        </div>
+        <div class="plan">
+          <span class="badge">Profissional</span>
+          <h3>Copa da Várzea</h3>
+          <div class="price">Sob consulta</div>
+          <ul class="ul">
+            <li><span class="ok">✔</span> Multi‑câmeras</li>
+            <li><span class="ok">✔</span> Narrador/placar</li>
+            <li><span class="ok">✔</span> Streaming + Replay</li>
+            <li><span class="ok">✔</span> Equipe completa</li>
+          </ul>
+          <div style="margin-top:14px"><a class="btn btn-ghost" href="https://wa.me/5599999999999?text=Quero%20o%20plano%20Copa%20da%20V%C3%A1rzea">Quero este</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTEMUNHOS -->
+  <section class="section">
+    <div class="container">
+      <h2>Quem usou, aprovou</h2>
+      <div class="quotes">
+        <blockquote>“Com o Varzinho a final ficou nível TV.”<div style="color:var(--muted);font-size:12px;margin-top:6px">— Liga do Bairro X</div></blockquote>
+        <blockquote>“O replay resolveu treta na hora.”<div style="color:var(--muted);font-size:12px;margin-top:6px">— Organização Y</div></blockquote>
+        <blockquote>“Os cortes bombaram no Instagram.”<div style="color:var(--muted);font-size:12px;margin-top:6px">— Arena Z</div></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section" style="background:#0f0f14;border-top:1px solid var(--border)">
+    <div class="container">
+      <h2>Perguntas frequentes</h2>
+      <details class="faq"><summary>Funciona em campo de barro à noite?</summary><p class="muted">Sim. Usamos câmeras com bom desempenho em baixa luz e iluminação de apoio quando necessário.</p></details>
+      <details class="faq"><summary>Quanto tempo leva pra instalar?</summary><p class="muted">De 15 a 30 minutos conforme o pacote escolhido.</p></details>
+      <details class="faq"><summary>Como recebo os arquivos?</summary><p class="muted">Você recebe os replays na hora e um pacote de melhores momentos após a partida.</p></details>
+      <details class="faq"><summary>Atendem torneios longos?</summary><p class="muted">Sim. Temos planos específicos para ligas e copas.</p></details>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="section">
+    <div class="container cta-final">
+      <img src="logo-vz.png" alt="VARZINHO" width="64" height="64" style="display:block;margin:0 auto 10px" />
+      <h3 style="margin:6px 0 8px;font-size:28px">Leva o VARZINHO pro teu campeonato</h3>
+      <p class="muted" style="margin:0 0 14px">Fala com a gente e fecha a cobertura da tua próxima rodada.</p>
+      <a class="btn btn-primary" href="https://wa.me/5599999999999?text=Quero%20levar%20o%20Varzinho%20pro%20meu%20campeonato">Chamar no WhatsApp</a>
+    </div>
+  </section>
+
+  <footer>© 2025 Varzinho — O replay da quebrada.</footer>
+</body>
+</html>
